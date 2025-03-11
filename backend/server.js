@@ -5,16 +5,21 @@ const cors = require('cors');
 const userRouter = require('./routes/user');
 const bankerRouter = require('./routes/banker');
 const customerRouter = require('./routes/customer');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+if (process.env.NODE_ENV === 'development') {
+    app.use(cors());
+} else {
     const corsOptions = {
-        origin: 'https://simple-banking-system-3vvr-g9eavwthb-itrgamings-projects.vercel.app', // Replace with your production URL
+        origin: process.env.ORIGIN,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
         optionsSuccessStatus: 204,
     };
     app.use(cors(corsOptions));
+}
 app.use('', userRouter);
 app.use('/banker', bankerRouter);
 app.use('/customer', customerRouter);
