@@ -10,6 +10,10 @@ app.use(express.json());
 app.use(cors());
 app.use('', userRouter);
 app.use('/banker', bankerRouter);
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the Enpointe.io API');
+});
     
 
 
