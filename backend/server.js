@@ -9,7 +9,7 @@ const customerRouter = require('./routes/customer');
 const app = express();
 app.use(express.json());
     const corsOptions = {
-        origin: 'https://simple-banking-system-3vvr-e9z3zt5ut-itrgamings-projects.vercel.app', // Replace with your production URL
+        origin: 'https://simple-banking-system-3vvr-g9eavwthb-itrgamings-projects.vercel.app', // Replace with your production URL
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
         optionsSuccessStatus: 204,
