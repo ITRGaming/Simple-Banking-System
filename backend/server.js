@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
     app.use(cors());
-} else {
+} else if (process.env.NODE_ENV === 'production') {
     const corsOptions = {
         origin: 'https://simple-banking-system-3vvr-e9z3zt5ut-itrgamings-projects.vercel.app', // Replace with your production URL
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
