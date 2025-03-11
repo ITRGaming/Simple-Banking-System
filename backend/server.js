@@ -11,10 +11,10 @@ const corsOptions = {
     credentials: true, // If you need to send cookies or authorization headers
     optionsSuccessStatus: 204, // For preflight requests
 };
-app.use(cors(corsOptions));
 
 const app = express();
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use('', userRouter);
 app.use('/banker', bankerRouter);
 
