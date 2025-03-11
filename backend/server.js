@@ -5,7 +5,7 @@ const cors = require('cors');
 const userRouter = require('./routes/user');
 const bankerRouter = require('./routes/banker');
 const customerRouter = require('./routes/customer');
-
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
