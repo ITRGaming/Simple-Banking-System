@@ -22,7 +22,11 @@ const api = {
         return response.data;
     },
     fetchTransaction: async (user_id, token) => {
-        const response = await axios.post(`${apiUrl}/banker/transaction`, { user_id , token });
+        const response = await axios.post(`${apiUrl}/transaction`, { user_id , token });
+        return response.data;
+    },
+    handleTransaction: async (user_id, transaction_type, amount, token) => {
+        const response = await axios.post(`${apiUrl}/customer/transaction`, { user_id, transaction_type, amount, token });
         return response.data;
     }
 }

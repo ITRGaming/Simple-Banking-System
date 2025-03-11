@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const userRouter = require('./routes/user');
 const bankerRouter = require('./routes/banker');
+const customerRouter = require('./routes/customer');
 
 const corsOptions = {
     origin: 'https://simple-banking-system-3vvr-e9z3zt5ut-itrgamings-projects.vercel.app', // Replace with your frontend's domain
@@ -14,9 +15,11 @@ const corsOptions = {
 
 const app = express();
 app.use(express.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use('', userRouter);
 app.use('/banker', bankerRouter);
+app.use('/customer', customerRouter);
 
 app.get('/', (req, res) => {
     res.send('Welcome to the Enpointe.io API');

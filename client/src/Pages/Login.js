@@ -20,6 +20,7 @@ function Login() {
     const response = await api.login(username, password, role);
     console.log('Login response:', response);
     if (response.token) {
+      response.id && localStorage.setItem('id', response.id);
       response.token && localStorage.setItem('token', response.token);
       window.location.href = `/${role}`;
       setError('');

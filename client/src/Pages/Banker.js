@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { Building2, CreditCard, ArrowUpDown, Eye } from 'lucide-react';
+import moment from 'moment';
 import api from '../Api/apis';
 import '../style.css';
 
@@ -39,6 +40,7 @@ function Banker() {
     async function selectCustomer(customer) {
         const token = localStorage.getItem('token');
         const transaction = await api.fetchTransaction(customer.user_id, token);
+        transaction.username = customer.username;
         console.log('Fetched transaction:', transaction);
         setSelectedCustomer(transaction);
     }
@@ -87,26 +89,28 @@ function Banker() {
         </div>
 
         {selectedCustomer && (
-          <div className="transaction-history">
-            <h2>Transaction History - {selectedCustomer.username}</h2>
-            <div className="transaction-list">
-              {selectedCustomer.transactions.map(transaction => (
-                <div key={transaction.id} className="transaction-item">
-                  <div className="transaction-info">
-                    <ArrowUpDown className={`transaction-icon ${transaction.type.toLowerCase()}`} />
-                    <div>
-                      <p className="transaction-description">{transaction.description}</p>
-                      <p className="transaction-date">{transaction.date}</p>
-                    </div>
-                  </div>
-                  <p className={`transaction-amount ${transaction.type.toLowerCase()}`}>
-                    {transaction.type === 'Credit' ? '+' : '-'} ${Math.abs(transaction.amount).toFixed(2)}
-                  </p>
-                </div>
-              ))}
+  <div className="transaction-history">
+    <h2>Transaction History - {selectedCustomer.username}</h2>
+    <div className="transaction-list">
+      {selectedCustomer.map(transaction => ( 
+        <div key={transaction.id} className="transaction-item"> 
+          <div className="transaction-info">
+          <ArrowUpDown className={`transaction-icon ${transaction.transaction_type === 'deposit' ? 'credit' : 'debit'}`} />
+            <div>
+              <h3>Transaction ID : {transaction.id}</h3>
+              <p className="transaction-date">
+              {transaction.transaction_type}<br/>
+              {moment(transaction.transaction_date).format('YYYY-MM-DD')}</p> 
             </div>
           </div>
-        )}
+          <p className={`transaction-amount ${transaction.transaction_type}`}>
+            {transaction.transaction_type === 'deposit' ? '+' : '-'} ₹{Math.abs(transaction.amount).toFixed(2)} 
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
