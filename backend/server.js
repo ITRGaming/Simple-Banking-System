@@ -5,9 +5,16 @@ const cors = require('cors');
 const userRouter = require('./routes/user');
 const bankerRouter = require('./routes/banker');
 
+const corsOptions = {
+    origin: 'https://simple-banking-system-3vvr-e9z3zt5ut-itrgamings-projects.vercel.app', // Replace with your frontend's domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // If you need to send cookies or authorization headers
+    optionsSuccessStatus: 204, // For preflight requests
+};
+app.use(cors(corsOptions));
+
 const app = express();
 app.use(express.json());
-app.use(cors());
 app.use('', userRouter);
 app.use('/banker', bankerRouter);
 
