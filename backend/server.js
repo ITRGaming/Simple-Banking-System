@@ -12,7 +12,14 @@ if (process.env.NODE_ENV === 'development') {
     app.use(cors());
 } else {
     const corsOptions = {
-        origin: process.env.ORIGIN,
+        origin: (origin, callback) => {
+            const allowedOrigins = process.env.ORIGIN.split(',');
+            if (allowedOrigins.includes(origin) || !origin) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
         optionsSuccessStatus: 204,
