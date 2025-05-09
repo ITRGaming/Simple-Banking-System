@@ -11,6 +11,7 @@ function Customer() {
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
   const [transactions, setTransactions] = useState(['']);
+  const [loading, setLoading] = useState(false);
   
   useEffect(() => {
       (async () => {
@@ -57,10 +58,12 @@ function Customer() {
       setError('Insufficient Funds');
       return;
     }
+    setLoading(true);
     const user_id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const transaction_type = modalType === 'deposit' ? 'deposit' : 'withdrawal';
     const newAmount= modalType === 'deposit' ? numAmount : numAmount;
+
 
     await api.handleTransaction(user_id, transaction_type, newAmount, token);
     await fetchTransactionData();
@@ -75,6 +78,7 @@ function Customer() {
   };
 
   const closeModal = () => {
+    setLoading(false);
     setShowModal(false);
     setAmount('');
     setError('');
@@ -160,8 +164,12 @@ function Customer() {
                 </div>
               </div>
               {error && <div className="error-message">{error}</div>}
-              <button className="modal-submit" onClick={handleTransaction}>
-                {modalType === 'deposit' ? 'Deposit' : 'Withdraw'}
+              <button 
+                className="modal-submit" 
+                onClick={handleTransaction} 
+                disabled={loading}
+              >
+                {loading ? 'Processing...' : modalType === 'deposit' ? 'Deposit' : 'Withdraw'}
               </button>
             </div>
           </div>

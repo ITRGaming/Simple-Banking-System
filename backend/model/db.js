@@ -1,24 +1,16 @@
-const mysql = require('mysql2');
-require('dotenv').config();
-
-// const db = mysql.createConnection({
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_DATABASE
-// });
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
 function dbConnect() {
-    const db = mysql.createConnection({
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE
+    const dbPath = path.resolve(__dirname, '../database/banking_system.db'); // Adjust the path as needed
+    const db = new sqlite3.Database(dbPath, (err) => {
+        if (err) {
+            console.error('Error connecting to SQLite database:', err.message);
+        } else {
+            console.log('Database is connected');
+        }
     });
     return db;
-    
 }
 
 module.exports = dbConnect;

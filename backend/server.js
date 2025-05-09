@@ -1,5 +1,4 @@
 const express = require('express');
-const dbConnect = require('./model/db');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const userRouter = require('./routes/user');
@@ -27,17 +26,7 @@ app.use('/customer', customerRouter);
 app.get('/', (req, res) => {
     res.send('Welcome to the Enpointe.io API');
 });
-    
 
-
-const db = dbConnect();
-db.connect((err) => {
-    if (err) {
-        console.error('Database connection failed:', err);
-    } else {
-        console.log('Connected to MySQL database');
-    }
-});
 
 // db();
 

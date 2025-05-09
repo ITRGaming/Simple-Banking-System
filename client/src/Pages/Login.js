@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Building2, Users, Lock, User, ChevronRight } from 'lucide-react';
+import { Building2, Users, Lock, User, ChevronRight, X } from 'lucide-react';
 import api from '../Api/apis';
 import '../style.css';
 
@@ -7,7 +7,10 @@ function Login() {
   const [role, setrole] = useState('customer');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [signUpType, setSignUpType] = useState('');
 
 
   useEffect(() => {
@@ -30,6 +33,32 @@ function Login() {
       setError('Invalid password');
     }
     
+  };
+  const openSignUp = (type) => {
+    setShowSignUp(true);
+    setSignUpType(type);
+    setEmail('');
+    setUsername('');
+    setPassword('');
+  };
+  const closeSignUp = () => {
+    setShowSignUp(false);
+    setSignUpType('');
+    setEmail('');
+    setUsername('');
+    setPassword('');
+  };
+  const handleSignUp = async(e) => {
+    e.preventDefault();
+    // Handle sign-up logic here
+    const response = await api.signUp(username, password, email, signUpType);
+    console.log('Sign-up response:', response);
+    if (response.status === 200) {
+      alert('Sign up successful');
+      closeSignUp();
+    } else {
+      setError('Sign up failed');
+    }
   };
 
   return (
@@ -107,6 +136,10 @@ function Login() {
             <ChevronRight className="icon" />
           </button>
           {error && <p className="error">{error}</p>}
+            {/* <div className='signUp-container'>
+              <label className="sign_up">Don't have an account?</label>
+              <button className='signUp' onClick={()=> openSignUp(role)}>Sign Up</button>
+            </div> */}
         </form>
 
         {/* Footer */}
@@ -114,6 +147,21 @@ function Login() {
           Protected by industry-leading security protocols
         </div>
       </div>
+      {showSignUp && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h2>{signUpType === 'customer' ? 'Customer Sign Up' : 'Banker Sign Up'}</h2>
+              <button className="close-button" onClick={closeSignUp}>
+                <X />
+              </button>
+            </div>
+            <form action="" className="signUpForm">
+
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

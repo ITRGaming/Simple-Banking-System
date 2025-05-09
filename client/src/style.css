@@ -573,3 +573,12 @@
   .modal-submit:hover {
     background-color: var(--primary-hover);
   }
+
+  .signUp-container{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .signUp{
+
+  }
